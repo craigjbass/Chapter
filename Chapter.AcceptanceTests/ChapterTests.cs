@@ -18,7 +18,9 @@ namespace Chapter.AcceptanceTests
 
             public Chapter One(string id)
             {
-                return _chapters[int.Parse(id)];
+                var chapter = _chapters[int.Parse(id)];
+                chapter.Id = id;
+                return chapter;
             }
 
             public string Save(Chapter chapter)
@@ -37,6 +39,7 @@ namespace Chapter.AcceptanceTests
 
             dynamic createRequest = new ExpandoObject();
             createRequest.Name = "A warm hello";
+            createRequest.Description = "Really nice people to hang out with...";
             
             var createResponse = createChapter.Execute(createRequest);
             
@@ -47,7 +50,9 @@ namespace Chapter.AcceptanceTests
 
             dynamic viewResponse = viewChapter.Execute(viewRequest);
 
+            ((string) viewResponse.Id).Should().Be(createResponse.Id);
             ((string) viewResponse.Name).Should().Be("A warm hello");
+            ((string) viewResponse.Description).Should().Be("Really nice people to hang out with...");
         }
     }
 }

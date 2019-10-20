@@ -15,16 +15,18 @@ namespace Chapter.Core.Tests
             return _id;
         }
 
-        [TestCase("A Good Chapter")]
-        [TestCase("A Better Chapter")]
-        public void CanCreateChapter(string name)
+        [TestCase("A Good Chapter", "Great")]
+        [TestCase("A Better Chapter", "Betterer!")]
+        public void CanCreateChapter(string name, string description)
         {
             var createChapter = new CreateChapter(this);
             dynamic request = new ExpandoObject();
             request.Name = name;
+            request.Description = description;
             createChapter.Execute(request);
 
             _lastSavedChapter.Name.Should().Be(name);
+            _lastSavedChapter.Description.Should().Be(description);
         }
 
         [TestCase("z")]
@@ -35,6 +37,7 @@ namespace Chapter.Core.Tests
             var createChapter = new CreateChapter(this);
             dynamic request = new ExpandoObject();
             request.Name = "Unused";
+            request.Description = "Unused";
             dynamic response = createChapter.Execute(request);
             ((string) response.Id).Should().Be(id);
         }

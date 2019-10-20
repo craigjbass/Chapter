@@ -13,7 +13,11 @@ namespace Chapter
 
         public dynamic Execute(dynamic request)
         {
-            var id = _chapterGateway.Save(new Chapter() {Name = request.Name});
+            var id = _chapterGateway.Save(new Chapter()
+            {
+                Name = request.Name,
+                Description = request.Description
+            });
             dynamic response = new ExpandoObject();
             response.Id = id;
             return response;

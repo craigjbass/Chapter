@@ -20,13 +20,15 @@ namespace Chapter.Core.Tests
         }
 
 
-        [TestCase("Agile 101")]
-        [TestCase("Agile Leadership Works!")]
-        public void CanViewAChapter(string name)
+        [TestCase("a", "Agile 101", "For beginners")]
+        [TestCase("z", "Agile Leadership Works!", "For everyone else")]
+        public void CanViewAChapter(string id, string name, string description)
         {
             _chapter = new Chapter
             {
-                Name = name
+                Id = id,   
+                Name = name,
+                Description = description
             };
             
             var viewChapter = new ViewChapter(this);
@@ -35,7 +37,9 @@ namespace Chapter.Core.Tests
             
             dynamic response = viewChapter.Execute(request);
 
+            ((string) response.Id).Should().Be(id);
             ((string) response.Name).Should().Be(name);
+            ((string) response.Description).Should().Be(description);
         }
 
         [TestCase("asd")]

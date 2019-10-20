@@ -16,7 +16,9 @@ namespace Chapter
             var chapter = _chapterGateway.One(request.Id);
 
             dynamic response = new ExpandoObject();
+            response.Id = chapter.Id;
             response.Name = chapter.Name;
+            response.Description = chapter.Description;
             return response;
         }
     }
