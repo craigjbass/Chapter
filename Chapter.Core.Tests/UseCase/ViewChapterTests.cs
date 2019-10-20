@@ -1,30 +1,26 @@
 using System.Dynamic;
+using Chapter.Port;
+using Chapter.UseCase;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Chapter.Core.Tests
+namespace Chapter.Core.Tests.UseCase
 {
-    public class ViewChapterTests : ChapterGateway
+    public class ViewChapterTests : ChapterReader
     {
-        private Chapter _chapter;
+        private Domain.Chapter _chapter;
         private string _lastId;
-        public Chapter One(string id)
+        public Domain.Chapter One(string id)
         {
             _lastId = id;
             return _chapter;
         }
 
-        public string Save(Chapter chapter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-
         [TestCase("a", "Agile 101", "For beginners")]
         [TestCase("z", "Agile Leadership Works!", "For everyone else")]
         public void CanViewAChapter(string id, string name, string description)
         {
-            _chapter = new Chapter
+            _chapter = new Domain.Chapter
             {
                 Id = id,   
                 Name = name,

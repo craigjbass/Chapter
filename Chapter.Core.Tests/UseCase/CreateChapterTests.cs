@@ -1,15 +1,16 @@
 ﻿using System.Dynamic;
+using Chapter.Port;
+using Chapter.UseCase;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Chapter.Core.Tests
+namespace Chapter.Core.Tests.UseCase
 {
-    public class CreateChapterTests : ChapterGateway
+    public class CreateChapterTests : ChapterWriter
     {
-        private Chapter _lastSavedChapter;
+        private Domain.Chapter _lastSavedChapter;
         private string _id;
-        public Chapter One(string id) => null;
-        public string Save(Chapter chapter)
+        public string Save(Domain.Chapter chapter)
         {
             _lastSavedChapter = chapter;
             return _id;

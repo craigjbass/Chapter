@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
+using Chapter.Port;
+using Chapter.UseCase;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -9,21 +11,21 @@ namespace Chapter.AcceptanceTests
     {
         class InMemoryChapter : ChapterGateway
         {
-            private List<Chapter> _chapters;
+            private List<Domain.Chapter> _chapters;
 
             public InMemoryChapter()
             {
-                _chapters = new List<Chapter>();
+                _chapters = new List<Domain.Chapter>();
             }
 
-            public Chapter One(string id)
+            public Domain.Chapter One(string id)
             {
                 var chapter = _chapters[int.Parse(id)];
                 chapter.Id = id;
                 return chapter;
             }
 
-            public string Save(Chapter chapter)
+            public string Save(Domain.Chapter chapter)
             {
                 _chapters.Add(chapter);
                 return (_chapters.Count - 1).ToString();

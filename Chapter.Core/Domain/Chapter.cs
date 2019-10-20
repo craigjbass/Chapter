@@ -1,4 +1,4 @@
-﻿namespace Chapter
+﻿namespace Chapter.Domain
 {
     public class Chapter
     {

@@ -1,19 +1,20 @@
 ﻿using System.Dynamic;
+using Chapter.Port;
 
-namespace Chapter
+namespace Chapter.UseCase
 {
     public class CreateChapter
     {
-        private readonly ChapterGateway _chapterGateway;
+        private readonly ChapterWriter _chapterGateway;
 
-        public CreateChapter(ChapterGateway chapterGateway)
+        public CreateChapter(ChapterWriter chapterGateway)
         {
             _chapterGateway = chapterGateway;
         }
 
         public dynamic Execute(dynamic request)
         {
-            var id = _chapterGateway.Save(new Chapter()
+            var id = _chapterGateway.Save(new Domain.Chapter()
             {
                 Name = request.Name,
                 Description = request.Description

@@ -1,12 +1,13 @@
 ﻿using System.Dynamic;
+using Chapter.Port;
 
-namespace Chapter
+namespace Chapter.UseCase
 {
     public class ViewChapter
     {
-        private readonly ChapterGateway _chapterGateway;
+        private readonly ChapterReader _chapterGateway;
 
-        public ViewChapter(ChapterGateway chapterGateway)
+        public ViewChapter(ChapterReader chapterGateway)
         {
             _chapterGateway = chapterGateway;
         }
