@@ -14,14 +14,7 @@ namespace Chapter.UseCase
 
         public dynamic Execute(dynamic request)
         {
-            var chapter = _chapterGateway.One(request.Id);
-
-            return new
-            {
-                chapter.Id,
-                chapter.Name,
-                chapter.Description
-            }.ToDynamic();
+            return _chapterGateway.One(request.Id);
         }
     }
 }
