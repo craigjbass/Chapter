@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Dynamic;
-using Chapter.Port;
 using Chapter.UseCase;
 using FluentAssertions;
 using NUnit.Framework;
@@ -9,48 +6,34 @@ namespace Chapter.AcceptanceTests
 {
     public class ChapterTests
     {
-        class InMemoryChapter : ChapterGateway
+        private InMemoryChapter _chapterGateway;
+        private CreateChapter _createChapter;
+        private ViewChapter _viewChapter;
+
+        private dynamic ViewChapter(object request) => _viewChapter.Execute(request.ToDynamic());
+        private dynamic CreateChapter(object request) => _createChapter.Execute(request.ToDynamic());
+
+        [SetUp]
+        public void SetUp()
         {
-            private List<Domain.Chapter> _chapters;
-
-            public InMemoryChapter()
-            {
-                _chapters = new List<Domain.Chapter>();
-            }
-
-            public Domain.Chapter One(string id)
-            {
-                var chapter = _chapters[int.Parse(id)];
-                chapter.Id = id;
-                return chapter;
-            }
-
-            public string Save(Domain.Chapter chapter)
-            {
-                _chapters.Add(chapter);
-                return (_chapters.Count - 1).ToString();
-            }
+            _chapterGateway = new InMemoryChapter();
+            _createChapter = new CreateChapter(_chapterGateway);
+            _viewChapter = new ViewChapter(_chapterGateway);
         }
 
         [Test]
         public void CanViewAChapter()
         {
-            var chapterGateway = new InMemoryChapter();
-            
-            var createChapter = new CreateChapter(chapterGateway);
-
-            var createResponse = createChapter.Execute(new
+            var createResponse = CreateChapter(new
             {
                 Name = "A warm hello",
                 Description = "Really nice people to hang out with..."
-            }.ToDynamic());
-            
-            var viewChapter = new ViewChapter(chapterGateway);
+            });
 
-            dynamic viewResponse = viewChapter.Execute(new
+            var viewResponse = ViewChapter(new
             {
                 createResponse.Id
-            }.ToDynamic());
+            });
 
             ((string) viewResponse.Id).Should().Be(createResponse.Id);
             ((string) viewResponse.Name).Should().Be("A warm hello");
