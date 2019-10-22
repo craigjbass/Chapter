@@ -21,10 +21,12 @@ namespace Chapter.Core.Tests.UseCase
         public void CanCreateChapter(string name, string description)
         {
             var createChapter = new CreateChapter(this);
-            dynamic request = new ExpandoObject();
-            request.Name = name;
-            request.Description = description;
-            createChapter.Execute(request);
+            
+            createChapter.Execute(new
+            {
+                Name = name,
+                Description = description
+            }.ToDynamic());
 
             _lastSavedChapter.Name.Should().Be(name);
             _lastSavedChapter.Description.Should().Be(description);
@@ -36,10 +38,11 @@ namespace Chapter.Core.Tests.UseCase
         {
             _id = id;
             var createChapter = new CreateChapter(this);
-            dynamic request = new ExpandoObject();
-            request.Name = "Unused";
-            request.Description = "Unused";
-            dynamic response = createChapter.Execute(request);
+            dynamic response = createChapter.Execute(new
+            {
+                Name = "Unused",
+                Description = "Unused"
+            }.ToDynamic());
             ((string) response.Id).Should().Be(id);
         }
     }

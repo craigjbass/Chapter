@@ -28,10 +28,11 @@ namespace Chapter.Core.Tests.UseCase
             };
             
             var viewChapter = new ViewChapter(this);
-            dynamic request = new ExpandoObject();
-            request.Id = "asd";
             
-            dynamic response = viewChapter.Execute(request);
+            dynamic response = viewChapter.Execute(new
+            {
+                Id = "asd"
+            }.ToDynamic());
 
             ((string) response.Id).Should().Be(id);
             ((string) response.Name).Should().Be(name);
@@ -43,10 +44,10 @@ namespace Chapter.Core.Tests.UseCase
         {
             var viewChapter = new ViewChapter(this);
 
-            dynamic request = new ExpandoObject();
-            request.Id = id;
-            
-            viewChapter.Execute(request);
+            viewChapter.Execute(new
+            {
+                Id = id
+            }.ToDynamic());
 
             _lastId.Should().Be(id);
 

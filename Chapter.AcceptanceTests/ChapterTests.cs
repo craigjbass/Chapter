@@ -39,18 +39,18 @@ namespace Chapter.AcceptanceTests
             
             var createChapter = new CreateChapter(chapterGateway);
 
-            dynamic createRequest = new ExpandoObject();
-            createRequest.Name = "A warm hello";
-            createRequest.Description = "Really nice people to hang out with...";
-            
-            var createResponse = createChapter.Execute(createRequest);
+            var createResponse = createChapter.Execute(new
+            {
+                Name = "A warm hello",
+                Description = "Really nice people to hang out with..."
+            }.ToDynamic());
             
             var viewChapter = new ViewChapter(chapterGateway);
 
-            dynamic viewRequest = new ExpandoObject();
-            viewRequest.Id = createResponse.Id;
-
-            dynamic viewResponse = viewChapter.Execute(viewRequest);
+            dynamic viewResponse = viewChapter.Execute(new
+            {
+                createResponse.Id
+            }.ToDynamic());
 
             ((string) viewResponse.Id).Should().Be(createResponse.Id);
             ((string) viewResponse.Name).Should().Be("A warm hello");

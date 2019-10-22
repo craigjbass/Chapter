@@ -14,14 +14,16 @@ namespace Chapter.UseCase
 
         public dynamic Execute(dynamic request)
         {
-            var id = _chapterGateway.Save(new Domain.Chapter()
+            var id = _chapterGateway.Save(new Domain.Chapter
             {
                 Name = request.Name,
                 Description = request.Description
             });
-            dynamic response = new ExpandoObject();
-            response.Id = id;
-            return response;
+            
+            return new
+            {
+                Id = id
+            }.ToDynamic();
         }
     }
 }
